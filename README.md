@@ -4,6 +4,7 @@ Mini Aquarium is an interactive and visually appealing aquarium simulation built
 
 **Key Features**
   Animated Fish: Multiple fish swim independently with smooth, natural movements and direction changes. Hungry fish actively chase dropped food particles.
+  
   Rising Bubbles: Bubbles continuously emerge from a realistic oxygen tank hose, floating upwards and fading out.
   Swaying Seaweed: Seaweed animations mimic underwater currents using sinusoidal motion for a dynamic environment.
   Interactive Food System: Users can drop food into the tank and refill the food bottle. Fish respond by moving toward and eating the food.
