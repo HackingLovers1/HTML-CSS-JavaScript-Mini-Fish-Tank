@@ -8,36 +8,35 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a202c; /* Dark background */
+            background-color: #1a202c; 
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* Prevent scrollbars */
+            overflow: hidden; 
         }
         .main-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            /* Adjusted padding to add more space at the bottom */
-            padding: 20px 20px 60px 20px; /* Top, Right, Bottom, Left */
+            padding: 20px 20px 60px 20px; 
             background-color: #2d3748;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            position: relative; /* For positioning the table */
-            height: 100vh; /* Set main-wrapper to 100% viewport height */
-            justify-content: center; /* Center content vertically within the wrapper */
+            position: relative;
+            height: 100vh; 
+            justify-content: center; 
         }
         canvas {
-            background-color: #001f3f; /* Deep blue for water - this will be overridden by drawTankGlass */
-            border: 4px solid #4a5568; /* Subtle border for the outer container */
+            background-color: #001f3f; 
+            border: 4px solid #4a5568;
             border-radius: 12px;
-            box-shadow: 0 0 40px rgba(0, 191, 255, 0.5); /* Blue glow */
+            box-shadow: 0 0 40px rgba(0, 191, 255, 0.5); 
             display: block;
-            position: relative; /* To layer elements correctly */
-            z-index: 2; /* Make canvas appear above table */
+            position: relative; 
+            z-index: 2; 
         }
         .title {
             color: #e2e8f0;
@@ -57,12 +56,12 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 10px;
-            z-index: 3; /* Ensure controls are on top */
+            z-index: 3; 
         }
         .food-bottle {
             width: 40px;
             height: 60px;
-            background-color: #8B4513; /* Brown for bottle */
+            background-color: #8B4513; 
             border: 2px solid #5A2D0C;
             border-radius: 5px;
             position: relative;
@@ -86,12 +85,12 @@
         .food-level {
             width: 80%;
             height: 70%;
-            background-color: #FFD700; /* Gold for food */
+            background-color: #FFD700;
             border-radius: 3px;
             transition: height 0.5s ease-out;
         }
         .action-button {
-            background-color: #4CAF50; /* Green button */
+            background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -122,17 +121,17 @@
             font-size: 1.2rem;
             text-align: center;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-            display: none; /* Hidden by default */
+            display: none; 
         }
         .aquarium-table {
-            background-color: #6B4226; /* Dark wood color */
-            width: 100%; /* Will be adjusted by JS to match canvas width */
-            height: 100px; /* Height of the table */
+            background-color: #6B4226; 
+            width: 100%;
+            height: 100px;
             border-radius: 0 0 12px 12px;
             position: absolute;
-            bottom: 0; /* Position at the bottom of the main-wrapper */
+            bottom: 0;
             left: 0;
-            z-index: 1; /* Below the canvas */
+            z-index: 1;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: space-around;
@@ -141,8 +140,8 @@
         }
         .table-leg {
             width: 20px;
-            height: 80px; /* Shorter than table height to give tabletop thickness */
-            background-color: #4A2B19; /* Darker wood for legs */
+            height: 80px; 
+            background-color: #4A2B19;
             border-radius: 5px;
             box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
         }
@@ -168,7 +167,7 @@
     </div>
 
     <script>
-        // Get the canvas element and its 2D rendering context
+        // canvas element and 2D rendering context
         const canvas = document.getElementById('aquariumCanvas');
         const ctx = canvas.getContext('2d');
         const dropFoodButton = document.getElementById('dropFoodButton');
@@ -183,20 +182,18 @@
             width: 40,
             height: 80,
             hoseLength: 120,
-            hoseTipOffset: 20, // How far into the tank the hose tip is
-            color: '#A9A9A9', // DarkGray
-            x: 0, // Will be set dynamically
-            y: 0, // Will be set dynamically
-            hoseX: 0, // Bubble origin X
-            hoseY: 0  // Bubble origin Y
+            hoseTipOffset: 20, 
+            color: '#A9A9A9',
+            x: 0, 
+            y: 0, 
+            hoseX: 0, 
+            hoseY: 0 
         };
 
-        // Set canvas dimensions to be responsive and adjust table
+        // Setting canvas dimensions to be responsive
         function resizeCanvas() {
             const aspectRatio = 16 / 9;
             const maxCanvasWidth = Math.min(window.innerWidth * 0.9, 800);
-            // Calculate maxCanvasHeight based on the remaining space in mainWrapper
-            // Subtracting controls height, padding, and table height
             const availableHeight = window.innerHeight - (mainWrapper.offsetTop * 2) - (aquariumTable.offsetHeight) - 100; // Estimate for controls and padding
             const maxCanvasHeight = Math.min(availableHeight * 0.8, 600);
 
@@ -212,17 +209,14 @@
             canvas.width = newWidth;
             canvas.height = newHeight;
 
-            // Adjust main wrapper width to fit canvas + padding
-            mainWrapper.style.width = `${canvas.width + 40}px`; // 40 for left/right padding
 
-            // Position oxygen tank relative to canvas
-            oxygenTank.x = canvas.width - oxygenTank.width - 10; // 10px from right edge
-            oxygenTank.y = canvas.height - oxygenTank.height - 10; // 10px from bottom edge of canvas
+            mainWrapper.style.width = `${canvas.width + 40}px`;
+            oxygenTank.x = canvas.width - oxygenTank.width - 10;
+            oxygenTank.y = canvas.height - oxygenTank.height - 10;
             oxygenTank.hoseX = oxygenTank.x + oxygenTank.width / 2;
-            oxygenTank.hoseY = canvas.height - oxygenTank.hoseTipOffset; // Hose tip inside the tank
+            oxygenTank.hoseY = canvas.height - oxygenTank.hoseTipOffset; 
         }
 
-        // Initial resize and add event listener for window resize
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
@@ -231,56 +225,55 @@
             constructor(x, y, size, emoji, speed) {
                 this.x = x;
                 this.y = y;
-                this.size = size; // Font size for emoji
+                this.size = size;
                 this.emoji = emoji;
                 this.speed = speed;
-                this.baseSpeed = speed; // Store base speed
-                this.directionX = Math.random() < 0.5 ? 1 : -1; // 1 for right, -1 for left
-                this.directionY = (Math.random() - 0.5) * 0.5; // Slight vertical drift
+                this.baseSpeed = speed;
+                this.directionX = Math.random() < 0.5 ? 1 : -1;
+                this.directionY = (Math.random() - 0.5) * 0.5;
                 this.tailAngle = 0;
                 this.tailSpeed = 0.1 + Math.random() * 0.1;
-                this.targetX = null; // For food following
+                this.targetX = null;
                 this.targetY = null;
-                this.fullness = 100; // 0-100, decreases over time, increases with food
-                this.turnFactor = 0.05; // How sharply fish turn away from walls
+                this.fullness = 100;
+                this.turnFactor = 0.05;
             }
 
             update() {
-                // Move towards target if set (food following)
+                // Food Following method
                 if (this.targetX !== null && this.targetY !== null) {
                     const dx = this.targetX - this.x;
                     const dy = this.targetY - this.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance > 5) { // If not very close to target
-                        this.x += (dx / distance) * this.speed * 1.5; // Move faster towards food
+                    if (distance > 5) {
+                        this.x += (dx / distance) * this.speed * 1.5; 
                         this.y += (dy / distance) * this.speed * 1.5;
-                        this.directionX = dx > 0 ? 1 : -1; // Orient towards target
+                        this.directionX = dx > 0 ? 1 : -1; 
                     } else {
-                        this.targetX = null; // Reached target
+                        this.targetX = null;
                         this.targetY = null;
-                        this.speed = this.baseSpeed; // Reset speed
+                        this.speed = this.baseSpeed; 
                     }
                 } else {
                     // Normal random movement
                     this.x += this.speed * this.directionX;
                     this.y += this.speed * this.directionY;
 
-                    // Lifelike wall avoidance (instead of simple bounce)
-                    const margin = this.size; // Margin from the wall to start turning
-                    if (this.x < margin) { // Too close to left wall
+                 
+                    const margin = this.size; 
+                    if (this.x < margin) {
                         this.directionX += this.turnFactor;
-                    } else if (this.x > canvas.width - margin) { // Too close to right wall
+                    } else if (this.x > canvas.width - margin) {
                         this.directionX -= this.turnFactor;
                     }
 
-                    if (this.y < margin) { // Too close to top wall
+                    if (this.y < margin) {
                         this.directionY += this.turnFactor;
-                    } else if (this.y > canvas.height - margin) { // Too close to bottom wall
+                    } else if (this.y > canvas.height - margin) { 
                         this.directionY -= this.turnFactor;
                     }
 
-                    // Normalize direction vector to maintain consistent speed
                     const magnitude = Math.sqrt(this.directionX * this.directionX + this.directionY * this.directionY);
                     if (magnitude > 0) {
                         this.directionX /= magnitude;
@@ -288,12 +281,9 @@
                     }
                 }
 
-                // Update tail animation
                 this.tailAngle += this.tailSpeed;
 
-                // Decrease fullness over time
                 this.fullness = Math.max(0, this.fullness - 0.01);
-                // If very hungry, increase speed to find food
                 if (this.fullness < 20 && this.targetX === null) {
                      this.speed = this.baseSpeed * 2;
                 } else if (this.targetX === null) {
@@ -304,12 +294,11 @@
             draw() {
                 ctx.save();
                 ctx.translate(this.x, this.y);
-                // Flip emoji horizontally if moving left
-                if (this.directionX < 0) { // Check actual direction, not just initial
+                if (this.directionX < 0) {
                     ctx.scale(-1, 1);
                 }
 
-                ctx.font = `${this.size}px sans-serif`; // Use sans-serif for emoji rendering
+                ctx.font = `${this.size}px sans-serif`; 
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(this.emoji, 0, 0);
@@ -317,16 +306,15 @@
                 ctx.restore();
             }
 
-            // Method to set food target
             setFoodTarget(foodX, foodY) {
                 this.targetX = foodX;
                 this.targetY = foodY;
-                this.speed = this.baseSpeed * 2; // Speed up when chasing food
+                this.speed = this.baseSpeed * 2; // Speeding up when chasing food
             }
 
             eatFood(amount) {
                 this.fullness = Math.min(100, this.fullness + amount);
-                this.targetX = null; // Stop chasing food
+                this.targetX = null; 
                 this.targetY = null;
                 this.speed = this.baseSpeed; // Reset speed
             }
@@ -344,9 +332,8 @@
 
             update() {
                 this.y -= this.speed;
-                this.opacity -= 0.005; // Fade out as it rises
+                this.opacity -= 0.005;
 
-                // Remove if off-screen or fully faded
                 return this.y + this.radius > 0 && this.opacity > 0;
             }
 
@@ -401,7 +388,6 @@
             update() {
                 if (!this.eaten) {
                     this.y += this.speedY;
-                    // Stop falling when it hits the bottom
                     if (this.y + this.size / 2 > canvas.height) {
                         this.y = canvas.height - this.size / 2;
                         this.speedY = 0; // Stop falling
@@ -411,7 +397,7 @@
 
             draw() {
                 if (!this.eaten) {
-                    ctx.fillStyle = '#FFD700'; // Gold color for food
+                    ctx.fillStyle = '#FFD700';
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
                     ctx.fill();
@@ -423,26 +409,25 @@
         function drawTankGlass() {
             ctx.save();
 
-            // 1. Draw the main water body (inside the tank)
-            ctx.fillStyle = 'rgba(0, 31, 63, 0.8)'; // Deep blue, slightly transparent
+            // 1. Drawing the main water body
+            ctx.fillStyle = 'rgba(0, 31, 63, 0.8)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 2. Add a subtle depth gradient to the water
+            // 2. Adding a subtle depth gradient to the water
             const waterGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
             waterGradient.addColorStop(0, 'rgba(0, 100, 150, 0.1)'); // Lighter at top
             waterGradient.addColorStop(1, 'rgba(0, 31, 63, 0.3)');  // Darker at bottom
             ctx.fillStyle = waterGradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 3. Draw the tank frame/border
-            const borderWidth = 8; // Thickness of the tank frame
-            ctx.strokeStyle = '#4a5568'; // Dark gray for the frame
+            // 3. Drawing the tank frame
+            const borderWidth = 8;
+            ctx.strokeStyle = '#4a5568';
             ctx.lineWidth = borderWidth;
             ctx.strokeRect(borderWidth / 2, borderWidth / 2, canvas.width - borderWidth, canvas.height - borderWidth);
 
-            // 4. Add subtle inner shadow/highlight for glass effect
-            // Top highlight
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'; // Light highlight
+            // 4. Adding subtle inner shadow/highlight for glass effect
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'; 
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(borderWidth, borderWidth);
@@ -456,7 +441,7 @@
             ctx.stroke();
 
             // Bottom shadow
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)'; // Dark shadow
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)'; 
             ctx.beginPath();
             ctx.moveTo(borderWidth, canvas.height - borderWidth);
             ctx.lineTo(canvas.width - borderWidth, canvas.height - borderWidth);
@@ -468,37 +453,36 @@
             ctx.lineTo(canvas.width - borderWidth, canvas.height - borderWidth);
             ctx.stroke();
 
-            // 5. Add a reflection on the water surface (subtle)
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'; // Very subtle white reflection
-            ctx.fillRect(0, 0, canvas.width, 10); // Small strip at the top
+            // 5. Adding a reflection on the water surface 
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, 10);
 
             ctx.restore();
         }
 
-        // --- Water Waves Drawing Function (Surface Only) ---
+        // --- Water Waves Drawing Function ---
         function drawWaterWaves(time) {
-            const waveAmplitude = 8; // Height of the waves
-            const waveFrequency = 0.015; // How many waves across the screen
-            const waveSpeed = 0.003; // Speed of wave movement
+            const waveAmplitude = 8; 
+            const waveFrequency = 0.015; 
+            const waveSpeed = 0.003; 
             const waveOffset = time * waveSpeed;
 
-            // 1. Draw the main wavy surface at the top (filled)
             ctx.beginPath();
-            ctx.fillStyle = 'rgba(100, 200, 255, 0.4)'; // Translucent light blue
-            ctx.moveTo(0, waveAmplitude); // Start from top-left (initial wave height)
+            ctx.fillStyle = 'rgba(100, 200, 255, 0.4)';
+            ctx.moveTo(0, waveAmplitude);
 
             for (let x = 0; x <= canvas.width; x += 5) {
                 const y = waveAmplitude + Math.sin(x * waveFrequency + waveOffset) * waveAmplitude;
                 ctx.lineTo(x, y);
             }
-            ctx.lineTo(canvas.width, 0); // Go to top-right
-            ctx.lineTo(0, 0); // Go back to top-left
+            ctx.lineTo(canvas.width, 0);
+            ctx.lineTo(0, 0);
             ctx.closePath();
             ctx.fill();
 
-            // Add a brighter highlight line at the very top of the wave
+            // Adding a brighter highlight line at the very top of the wave
             ctx.beginPath();
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)'; // White highlight
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
             ctx.lineWidth = 1.5;
             ctx.moveTo(0, waveAmplitude);
             for (let x = 0; x <= canvas.width; x += 5) {
@@ -544,28 +528,27 @@
         const bubbles = [];
         const seaweeds = [];
         const foodParticles = [];
-        let foodInBottle = 100; // Represents percentage of food left
-        const maxFoodDrops = 5; // Max food particles at once
+        let foodInBottle = 100;
+        const maxFoodDrops = 5;
 
         // Initialize elements
         function initAquarium() {
             // Create fish using emojis
-            const fishEmojis = ['🐠', '🐡', '🐟', '🐙', '🦑', '🦐']; // More variety
-            for (let i = 0; i < 10; i++) { // More fish!
-                const size = 30 + Math.random() * 20; // Slightly smaller size for more fish
+            const fishEmojis = ['🐠', '🐡', '🐟', '🐙', '🦑', '🦐']; 
+            for (let i = 0; i < 10; i++) {
+                const size = 30 + Math.random() * 20; 
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * canvas.height;
                 const emoji = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
-                const speed = 0.5 + Math.random() * 0.5; // Slower fish
+                const speed = 0.5 + Math.random() * 0.5; 
                 fishes.push(new Fish(x, y, size, emoji, speed));
             }
 
-            // Create seaweed
-            for (let i = 0; i < 12; i++) { // More seaweed
+            for (let i = 0; i < 12; i++) { 
                 const x = Math.random() * canvas.width;
                 const height = 50 + Math.random() * 100;
                 const segments = 5 + Math.floor(Math.random() * 5);
-                const color = `rgba(0, ${100 + Math.random() * 50}, 0, 0.8)`; // Greenish
+                const color = `rgba(0, ${100 + Math.random() * 50}, 0, 0.8)`;
                 const swaySpeed = 0.01 + Math.random() * 0.02;
                 seaweeds.push(new Seaweed(x, height, segments, color, swaySpeed));
             }
@@ -573,11 +556,11 @@
 
         // Generate bubbles periodically from oxygen tank hose
         setInterval(() => {
-            const x = oxygenTank.hoseX + (Math.random() - 0.5) * 10; // Slight random offset
+            const x = oxygenTank.hoseX + (Math.random() - 0.5) * 10; 
             const radius = 2 + Math.random() * 5;
-            const speed = 0.2 + Math.random() * 0.8; // Slower bubbles
+            const speed = 0.2 + Math.random() * 0.8; 
             bubbles.push(new Bubble(x, oxygenTank.hoseY, radius, speed));
-        }, 150); // Generate a new bubble every 150ms
+        }, 150);
 
         // Display a temporary message
         function showMessage(msg, duration = 2000) {
@@ -592,17 +575,17 @@
         dropFoodButton.addEventListener('click', () => {
             if (foodInBottle > 0) {
                 if (foodParticles.length < maxFoodDrops) {
-                    const foodX = canvas.width / 2 + (Math.random() - 0.5) * 50; // Drop near center top
+                    const foodX = canvas.width / 2 + (Math.random() - 0.5) * 50; 
                     const foodY = 0;
                     const foodSize = 8 + Math.random() * 4;
                     const foodSpeed = 1 + Math.random() * 0.5;
                     foodParticles.push(new FoodParticle(foodX, foodY, foodSize, foodSpeed));
-                    foodInBottle = Math.max(0, foodInBottle - 5); // Decrease food level
+                    foodInBottle = Math.max(0, foodInBottle - 5); 
                     foodLevelDisplay.style.height = `${foodInBottle}%`;
 
                     // Make hungry fish chase food
                     fishes.forEach(fish => {
-                        if (fish.fullness < 70) { // Only hungry fish go for food
+                        if (fish.fullness < 70) { 
                             fish.setFoodTarget(foodX, foodY);
                         }
                     });
@@ -616,22 +599,16 @@
 
         // Event listener for refilling food
         refillFoodButton.addEventListener('click', () => {
-            foodInBottle = 100; // Reset food level
+            foodInBottle = 100; 
             foodLevelDisplay.style.height = `${foodInBottle}%`;
             showMessage("Food bottle refilled!");
         });
 
         // Main animation loop
         function animate(time) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas (background is set by CSS)
-
-            // Draw the tank glass and water body first
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawTankGlass();
-
-            // Draw seaweed
             seaweeds.forEach(seaweed => seaweed.draw(time));
-
-            // Draw oxygen tank
             drawOxygenTank();
 
             // Update and draw food particles
@@ -644,9 +621,9 @@
                 fishes.forEach(fish => {
                     if (!food.eaten &&
                         Math.abs(fish.x - food.x) < (fish.size / 2 + food.size / 2) &&
-                        Math.abs(fish.y - food.y) < (fish.size / 4 + food.size / 2)) { // Adjust for fish body shape
-                        fish.eatFood(20); // Increase fullness
-                        food.eaten = true; // Mark food as eaten
+                        Math.abs(fish.y - food.y) < (fish.size / 4 + food.size / 2)) { 
+                        fish.eatFood(20);
+                        food.eaten = true;
                     }
                 });
 
@@ -668,23 +645,24 @@
                 if (bubbles[i].update()) {
                     bubbles[i].draw();
                 } else {
-                    bubbles.splice(i, 1); // Remove bubble if it's off-screen or faded
+                    bubbles.splice(i, 1); 
                 }
             }
 
             // Draw water waves (on top of everything else for a layered effect)
             drawWaterWaves(time);
 
-            requestAnimationFrame(animate); // Loop the animation
+            requestAnimationFrame(animate); 
         }
 
         // Start the animation when the window loads
         window.onload = function() {
             initAquarium();
-            resizeCanvas(); // Ensure initial positioning is correct
-            animate(0); // Start with time = 0
-            foodLevelDisplay.style.height = `${foodInBottle}%`; // Set initial food level
+            resizeCanvas(); 
+            animate(0); 
+            foodLevelDisplay.style.height = `${foodInBottle}%`; 
         };
     </script>
 </body>
 </html>
+
