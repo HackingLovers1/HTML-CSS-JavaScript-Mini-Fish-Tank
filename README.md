@@ -2,6 +2,9 @@
 Mini Aquarium
 Mini Aquarium is an interactive and visually appealing aquarium simulation built using HTML5 Canvas and JavaScript, enhanced with Tailwind CSS for styling. This project creates a captivating underwater scene where animated emoji fish swim smoothly, bubbles rise naturally from an oxygen tank, and seaweed sways with lifelike movement. The aquarium features dynamic fish behavior, including hunger and food-seeking actions, making the environment feel alive and engaging.
 
+<img width="1919" height="922" alt="Screenshot 2025-08-08 032413" src="https://github.com/user-attachments/assets/848c1e33-3da8-4eac-8334-69877a5189d1" />
+
+
 **Key Features**
 
   Animated Fish: Multiple fish swim independently with smooth, natural movements and direction changes. Hungry fish actively chase dropped food particles.
